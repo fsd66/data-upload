@@ -13,15 +13,26 @@ console.log(`save location: ${saveLocation}`);
 app.use(fileUpload());
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/upload", (req, res) => {
     res.redirect("/");
-})
+});
 
-app.post("/upload", (req, res) => {
+app.get("/files", async (req, res) => {
+    const files = fs.readdirSync(saveLocation);
+    res.send({ files });
+});
+
+app.get("/file/:name", async (req, res) => {
+    const requestedFile = req.params.name;
+    console.log(`Download of file ${requestedFile} requested!`);
+    res.sendFile(path.join(__dirname, saveLocation, requestedFile));
+});
+
+app.post("/upload", async (req, res) => {
     try {
         const file = req.files.file;
         console.log(`Received file: ${file.name}, Size: ${file.size}`);
@@ -29,6 +40,7 @@ app.post("/upload", (req, res) => {
         console.log(`Writing file to: ${filePath}`);
         fs.writeFile(filePath, file.data, (err) => console.log(err ?? `File successfully written!`));
         res.send("File received.");
+
     } catch(err) {
         console.log(err);
         res.sendStatus(415);

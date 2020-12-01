@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>File Upload</title>
-        <meta charset="UTF-8">
-    </head>
 
-    <body>
+<head>
+    <title>File Upload</title>
+    <meta charset="UTF-8">
+    <script src="public/scripts/data-upload.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Data Upload</h1>
+    </div>
+
+    <hr />
+
+    <div>
         <form method="post" enctype="multipart/form-data" action="/upload">
             <div>
                 <label for="file">Select file to upload:</label>
@@ -16,5 +25,16 @@
                 <input type="submit" value="Upload File" />
             </div>
         </form>
-    </body>
+    </div>
+
+    <hr />
+
+    <div>
+        Downloadable files:
+        <ul id="downloadable-files">
+
+        </ul>
+    </div>
+</body>
+
 </html>
